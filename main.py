@@ -21,10 +21,10 @@ def read_root():
 
 @app.get("/product/{barcode}")
 def get_product(barcode: str):
-    result = collection.find_one({"code": barcode})
+    result = collection.find_one({"barcode": barcode})
     if result:
         return {
-            "code": result["code"],
+            "barcode": result["barcode"],
             "productName": result["productName"],
             "status": result["status"],
             "reason": result["reason"]
