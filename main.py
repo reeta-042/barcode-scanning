@@ -25,7 +25,7 @@ def get_product(barcode: str):
     if result:
         return {
             "barcode": result["barcode"],
-            "productName": result["productName"],
+            "product_name": result["product_name"],
             "status": result["status"],
             "reason": result["reason"]
         }
