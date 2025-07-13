@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -9,7 +10,7 @@ app = FastAPI(
 )
 
 # MongoDB connection
-uri = "mongodb+srv://francismbah008:<your_password>@enugu-hackathon.lkcsush.mongodb.net/?retryWrites=true&w=majority&appName=enugu-hackathon"
+uri = os.environ.get("MONGO_URI")
 client = MongoClient(uri, server_api=ServerApi("1"))
 db = client["barcodeDB"]
 collection = db["barcodes"]
