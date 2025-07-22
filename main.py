@@ -11,8 +11,11 @@ app = FastAPI(
     version="1.0.0"
 )
 origins = [
-    "http://localhost:3000",  
+    "http://localhost:3000",               
+    
+    "https://veritrue.vercel.app"          
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
