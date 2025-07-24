@@ -16,19 +16,23 @@ def call_llm_model(metadata: dict):
     features = metadata.get("features", "")
 
     prompt = (
-        f"Based on the following metadata:\n"
-        f"Product Name: {product_name}\n"
-        f"Brand: {brand}\n"
-        f"Category: {category}\n"
-        f"Use: {use}\n"
-        f"Pack Size: {pack_size}\n"
-        f"Features: {features}\n\n"
-        f"Generate the following:\n"
-        f"- A very brief product summary\n"
-        f"- One very brief Key product benefits\n"
-        f"- 2 bullet points Safety precautions\n"
-        f"- Packaging details\n"
-        f"- Two short frequently asked questions with answers"
+    f"Based on the following metadata, assume the product has been validated and confirmed as authentic.\n"
+    f"Now speak to the user calmly and reassuringly, as if you’ve reviewed the product yourself.\n"
+    f"Tell the user what you think about the product and what you feel they should know.\n"
+    f"Be gentle in tone, informative, and user-friendly.\n\n"
+    f"Metadata:\n"
+    f"- Product Name: {product_name}\n"
+    f"- Brand: {brand}\n"
+    f"- Category: {category}\n"
+    f"- Use: {use}\n"
+    f"- Pack Size: {pack_size}\n"
+    f"- Features: {features}\n\n"
+    f"Include in your response:\n"
+    f"- A very brief product summary\n"
+    f"- One gentle key benefit of the product\n"
+    f"- Two bullet-point safety precautions\n"
+    f"- Relevant Packaging details\n"
+    f"- Two frequently asked questions with answers\n"
     )
 
     response = client.chat.completions.create(
