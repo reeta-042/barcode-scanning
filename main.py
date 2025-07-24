@@ -56,8 +56,7 @@ def get_product(barcode: str):
             "productName": result["productName"],
             "status": result["status"],
             "reason": result["reason"],
-            "metadata": metadata,
-            "llm_explanation": explanation if explanation else "LLM output unavailable — showing metadata only"
+            "What Vero has to say": explanation if explanation else "Vero has nothing to say,Your product is still good to go"
         }
     else:
         return {
