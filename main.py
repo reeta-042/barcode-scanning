@@ -56,7 +56,7 @@ def get_product(barcode: str):
             "productName": result["productName"],
             "status": result["status"],
             "reason": result["reason"],
-            "What Vero has to say": explanation if explanation else "Vero has nothing to say,Your product is still good to go"
+            "What_Vero_has_to_say": explanation if explanation else "Vero has nothing to say,Your product is still good to go"
         }
     else:
         return {
