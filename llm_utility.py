@@ -1,13 +1,9 @@
-from openai import OpenAI
 import os
+from google import genai
+from google.genai import types
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# 🔌 Connect to OpenRouter
-client = OpenAI(
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    base_url="https://openrouter.ai/api/v1"
-)
-
-def call_llm_model(metadata: dict):
+def call_llm_model(metadata: dict, language: str = "English"):
     product_name = metadata.get("product_name", "")
     brand = metadata.get("brand", "")
     category = metadata.get("category", "")
@@ -16,10 +12,10 @@ def call_llm_model(metadata: dict):
     features = metadata.get("features", "")
 
     prompt = (
-    f"Based on the following metadata, assume the product has been validated and confirmed as authentic.\n"
+    f"Based on the following metadata, the product has been validated and confirmed as authentic.\n"
     f"Now speak to the user calmly and reassuringly, as if you’ve reviewed the product yourself.\n"
     f"Tell the user what you think about the product and what you feel they should know.\n"
-    f"In no more than 300 characters, summarize what the user should know:\n"
+    f"In exactly  300 characters, summarize what the user should know:\n"
     f"Be gentle in tone, informative, and user-friendly.\n\n"
     f"Metadata:\n"
     f"- Product Name: {product_name}\n"
@@ -34,16 +30,19 @@ def call_llm_model(metadata: dict):
     f"- Two bullet-point safety precautions\n"
     f"- Relevant Packaging details\n"
     f"- Two frequently asked questions with answers\n"
+    f"- Respond with the selected Nigerian {language}\n""
     )
 
-    response = client.chat.completions.create(
-        model="meta-llama/llama-3.3-70b-instruct:free",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=500
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            thinking_config=types.ThinkingConfig(thinking_budget=0) # Disables thinking
+        ),
     )
 
-    if response and response.choices and response.choices[0].message:
-        return response.choices[0].message.content
+    # It's good practice to return responses
+    if response and hasattr(response, 'text'):
+        return response.text
     else:
-        return None
+        return "⚠️ No valid response received from AI ASSISTANT."
