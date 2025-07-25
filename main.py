@@ -39,35 +39,36 @@ def read_root():
 
 # 🔍 Barcode product lookup with LLM enrichment
 class ProductRequest(BaseModel):
-‎    barcode: str
-‎    language: str
-‎@app.post("/product/")
-‎def get_product(data: ProductRequest):
-‎    barcode = data.barcode
-‎    language = data.language
+    barcode: str
+    language: str
+
+@app.post("/product/")
+def get_product(data: ProductRequest):
+    barcode = data.barcode
+    language = data.language
     result = collection.find_one({"barcode": barcode})
-‎    if result:
-‎        metadata = {
-‎            "product_name": result.get("productName", ""),
-‎            "brand": result.get("brand", ""),
-‎            "category": result.get("category", ""),
-‎            "use": result.get("use", ""),
-‎            "pack_size": result.get("packSize", ""),
-‎            "features": result.get("features", ""),
-‎            "language": language 
-‎        }
-‎
-‎        explanation = call_llm_model(metadata)
-‎
-‎        return {
-‎            "barcode": result["barcode"],
-‎            "productName": result["productName"],
-‎            "status": result["status"],
-‎            "reason": result["reason"],
-‎            "What_Vero_has_to_say": explanation if explanation else "Vero has no comment"
-‎        }
-‎    else:
-‎        return {
-‎            "message": "Product might be fake",
-‎            "reason": "Product not available on the system"
-‎        }
+    if result:
+        metadata = {
+            "product_name": result.get("productName", ""),
+            "brand": result.get("brand", ""),
+            "category": result.get("category", ""),
+            "use": result.get("use", ""),
+            "pack_size": result.get("packSize", ""),
+            "features": result.get("features", ""),
+            "language": language 
+        }
+
+        explanation = call_llm_model(metadata)
+
+        return {
+            "barcode": result["barcode"],
+            "productName": result["productName"],
+            "status": result["status"],
+            "reason": result["reason"],
+            "What_Vero_has_to_say": explanation if explanation else "Vero has no comment"
+        }
+    else:
+        return {
+            "message": "Product might be fake",
+            "reason": "Product not available on the system"
+        }
