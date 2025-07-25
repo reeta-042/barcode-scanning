@@ -55,10 +55,10 @@ def get_product(data: ProductRequest):
             "use": result.get("use", ""),
             "pack_size": result.get("packSize", ""),
             "features": result.get("features", ""),
-            "language": language 
+            
         }
 
-        explanation = call_llm_model(metadata, language)
+        explanation = call_llm_model(metadata, data.language)
 
         return {
             "barcode": result["barcode"],
