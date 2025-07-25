@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from llm_utility import call_llm_model  # 🔗 Import LLM logic from separate module
 
 app = FastAPI(
@@ -37,29 +38,36 @@ def read_root():
     return {"message": "Barcode lookup API is running 🔍"}
 
 # 🔍 Barcode product lookup with LLM enrichment
-@app.get("/product/{barcode}")
-def get_product(barcode: str):
+class ProductRequest(BaseModel):
+‎    barcode: str
+‎    language: str
+‎@app.post("/product/")
+‎def get_product(data: ProductRequest):
+‎    barcode = data.barcode
+‎    language = data.language
     result = collection.find_one({"barcode": barcode})
-    if result:
-        metadata = {
-            "product_name": result.get("productName", ""),
-            "brand": result.get("brand", ""),
-            "category": result.get("category", ""),
-            "use": result.get("use", ""),
-            "pack_size": result.get("packSize", ""),
-            "features": result.get("features", "")
-        }
-        explanation = call_llm_model(metadata)
-
-        return {
-            "barcode": result["barcode"],
-            "productName": result["productName"],
-            "status": result["status"],
-            "reason": result["reason"],
-            "What_Vero_has_to_say": explanation if explanation else "Vero has nothing to say,Your product is still good to go"
-        }
-    else:
-        return {
-            "message": "Product might be fake",
-            "reason": "Product not available on the system"
-        }
+‎    if result:
+‎        metadata = {
+‎            "product_name": result.get("productName", ""),
+‎            "brand": result.get("brand", ""),
+‎            "category": result.get("category", ""),
+‎            "use": result.get("use", ""),
+‎            "pack_size": result.get("packSize", ""),
+‎            "features": result.get("features", ""),
+‎            "language": language 
+‎        }
+‎
+‎        explanation = call_llm_model(metadata)
+‎
+‎        return {
+‎            "barcode": result["barcode"],
+‎            "productName": result["productName"],
+‎            "status": result["status"],
+‎            "reason": result["reason"],
+‎            "What_Vero_has_to_say": explanation if explanation else "Vero has no comment"
+‎        }
+‎    else:
+‎        return {
+‎            "message": "Product might be fake",
+‎            "reason": "Product not available on the system"
+‎        }
