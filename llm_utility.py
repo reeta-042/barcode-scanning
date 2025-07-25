@@ -12,6 +12,7 @@ def call_llm_model(metadata: dict, language:str):
     features = metadata.get("features", "")
 
     prompt = (
+    f"- Respond with the selected Nigerian {language}\n"
     f"Based on the following metadata, the product has been validated and confirmed as authentic.\n"
     f"Now speak to the user calmly and reassuringly, as if you’ve reviewed the product yourself.\n"
     f"Tell the user what you think about the product and what you feel they should know.\n"
@@ -30,7 +31,7 @@ def call_llm_model(metadata: dict, language:str):
     f"- Two bullet-point safety precautions\n"
     f"- Relevant Packaging details\n"
     f"- Two frequently asked questions with answers\n"
-    f"- Respond with the selected Nigerian {language}\n"
+    
     )
 
     response = client.models.generate_content(
