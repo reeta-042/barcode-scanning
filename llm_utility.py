@@ -30,7 +30,7 @@ def call_llm_model(metadata: dict, language: str = "English"):
     f"- Two bullet-point safety precautions\n"
     f"- Relevant Packaging details\n"
     f"- Two frequently asked questions with answers\n"
-    f"- Respond with the selected Nigerian {language}\n""
+    f"- Respond with the selected Nigerian {language}\n"
     )
 
     response = client.models.generate_content(
