@@ -58,7 +58,7 @@ def get_product(data: ProductRequest):
             "language": language 
         }
 
-        explanation = call_llm_model(metadata)
+        explanation = call_llm_model(metadata, language)
 
         return {
             "barcode": result["barcode"],
