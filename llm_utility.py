@@ -3,7 +3,7 @@ from google import genai
 from google.genai import types
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-def call_llm_model(metadata: dict, language: str = "English"):
+def call_llm_model(metadata: dict, language:str):
     product_name = metadata.get("product_name", "")
     brand = metadata.get("brand", "")
     category = metadata.get("category", "")
