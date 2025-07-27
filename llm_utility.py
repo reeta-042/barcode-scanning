@@ -17,7 +17,7 @@ def call_llm_model(metadata: dict, language:str):
     f"Based on the following metadata, the product has been validated and confirmed as authentic.\n"
     f"Now speak to the user calmly and reassuringly, as if you’ve reviewed the product yourself.\n"
     f"Tell the user what you think about the product and what you feel they should know.\n"
-    f"In exactly  300 characters, summarize what the user should know:\n"
+    f"Your total response should be  exactly  300 characters.\n"
     f"Be gentle in tone, informative, and user-friendly.\n\n"
     f"Metadata:\n"
     f"- Product Name: {product_name}\n"
