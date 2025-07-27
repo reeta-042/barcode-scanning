@@ -13,6 +13,7 @@ def call_llm_model(metadata: dict, language:str):
 
     prompt = (
     f"- Respond with the selected Nigerian {language}\n"
+    f"- Let your response also be in a html format\n"
     f"Based on the following metadata, the product has been validated and confirmed as authentic.\n"
     f"Now speak to the user calmly and reassuringly, as if you’ve reviewed the product yourself.\n"
     f"Tell the user what you think about the product and what you feel they should know.\n"
